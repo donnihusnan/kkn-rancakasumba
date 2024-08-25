@@ -1,113 +1,326 @@
-import Image from "next/image";
+'use client';
+
+import { useCallback, useEffect, useState, useRef } from 'react';
+import { ParallaxProvider, Parallax, useParallax } from 'react-scroll-parallax';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import { BsFillHouseFill } from 'react-icons/bs';
+
+interface ParallaxImageProps {
+  src: string;
+  speed: number;
+  className?: string;
+}
+
+const ParallaxImage: React.FC<ParallaxImageProps> = ({
+  src,
+  speed,
+  className,
+}) => {
+  const { ref } = useParallax<HTMLDivElement>({ speed });
+  return (
+    <div
+      ref={ref}
+      className={`absolute inset-0 bg-cover bg-center ${className}`}
+      style={{ backgroundImage: `url(${src})` }}
+    />
+  );
+};
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > scrollY) {
+      setIsHeaderVisible(false);
+    } else {
+      setIsHeaderVisible(true);
+    }
+    setScrollY(currentScrollY);
+  }, [scrollY]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+
+    const moveCursor = (e: MouseEvent) => {
+      requestAnimationFrame(() => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+      });
+    };
+
+    document.addEventListener('mousemove', moveCursor);
+
+    return () => {
+      document.removeEventListener('mousemove', moveCursor);
+      document.body.removeChild(cursor);
+    };
+  }, []);
+
+  useEffect(() => {
+    const growCursor = () => {
+      const cursor = document.querySelector('.custom-cursor');
+      if (cursor) cursor.classList.add('grow');
+    };
+
+    const shrinkCursor = () => {
+      const cursor = document.querySelector('.custom-cursor');
+      if (cursor) cursor.classList.remove('grow');
+    };
+
+    const links = document.querySelectorAll('a, button');
+    links.forEach((link) => {
+      link.addEventListener('mouseover', growCursor);
+      link.addEventListener('mouseleave', shrinkCursor);
+    });
+
+    return () => {
+      links.forEach((link) => {
+        link.removeEventListener('mouseover', growCursor);
+        link.removeEventListener('mouseleave', shrinkCursor);
+      });
+    };
+  }, []);
+
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+
+  const galleryImages = [
+    '/images/asset.jpg',
+    '/images/asset2.jpg',
+    '/images/asset3.jpg',
+    '/images/asset4.jpg',
+    '/images/asset5.jpg',
+    '/images/asset6.jpg',
+    '/images/asset7.jpg',
+    '/images/sawah.jpg',
+  ];
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <ParallaxProvider>
+        <div className="bg-gradient-to-b from-green-50 to-green-100 text-green-900 min-h-screen">
+          <header
+            className={`fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-green-600 to-green-800 text-white p-4 transition-transform duration-300 ${
+              isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+            }`}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <nav className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto">
+              <h1 className="text-2xl font-bold mb-4 md:mb-0">
+                <BsFillHouseFill size={40} />
+              </h1>
+              <ul className="flex flex-wrap justify-center space-x-4">
+                {['Beranda', 'Tentang', 'Potensi', 'Lokasi'].map((item) => (
+                  <li key={item}>
+                    <a
+                      href={`#${item.toLowerCase()}`}
+                      className="relative overflow-hidden group px-2 py-1 hover:text-green-300 transition-colors duration-300"
+                    >
+                      {item}
+                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-green-300 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </header>
+
+          <main>
+            <motion.section
+              ref={ref}
+              style={{ opacity, scale }}
+              id="beranda"
+              className="relative min-h-screen flex items-center justify-center overflow-hidden"
+            >
+              <ParallaxImage
+                src="/images/asset.jpg"
+                speed={-20}
+                className="opacity-80"
+              />
+              <div className="relative z-10 text-center flex flex-col items-center justify-center min-h-screen">
+                <motion.h2
+                  className="text-6xl font-bold mb-4"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                >
+                  RANCAKASUMBA
+                </motion.h2>
+                <motion.p
+                  className="text-xl mb-8"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                >
+                  Nyaman Aman Tenang
+                </motion.p>
+              </div>
+              <motion.div
+                className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                <ChevronDown size={40} />
+              </motion.div>
+            </motion.section>
+
+            <section id="tentang" className="relative min-h-screen py-20">
+              <Parallax speed={10}>
+                <div className="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center min-h-screen">
+                  <h2 className="text-4xl font-bold mb-8 text-center">
+                    Tentang Desa
+                  </h2>
+                  <p className="text-lg mb-4">
+                    Terletak di jantung alam, Rancakasumba sungguh indah desa
+                    yang menawarkan perpaduan sempurna antara pesona tradisional
+                    dan kenyamanan modern. Komunitas kami bangga melestarikan
+                    kami warisan budaya yang kaya sambil menerapkan praktik
+                    hidup berkelanjutan.
+                  </p>
+                  <p className="text-lg">
+                    Dari padang rumput hijau subur hingga sungai sebening
+                    kristal, setiap sudut Rancakasumba menceritakan kisah
+                    harmoni di antara keduanya manusia dan alam. Datang dan
+                    rasakan kehangatan kami komunitas dan keindahan lanskap
+                    kita.
+                  </p>
+                </div>
+              </Parallax>
+            </section>
+
+            <section
+              id="potensi"
+              className="relative min-h-screen py-20 bg-green-100 flex flex-col items-center justify-center"
+            >
+              <ParallaxImage
+                src="/images/sawah.jpg"
+                speed={-10}
+                className="opacity-50"
+              />
+              <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
+                <h2 className="text-4xl font-bold mb-12">Potensi Desa</h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {['Historic Mill', 'Botanical Gardens', 'Artisan Market'].map(
+                    (attraction, index) => (
+                      <Parallax key={index} speed={5 * (index + 1)}>
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="h-full"
+                        >
+                          <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:shadow-xl h-full">
+                            <h3 className="text-xl font-semibold mb-2">
+                              {attraction}
+                            </h3>
+                            <p className="text-gray-600">
+                              Lorem ipsum dolor sit amet, consectetur adipiscing
+                              elit. Vivamus lacinia odio vitae vestibulum.
+                            </p>
+                          </div>
+                        </motion.div>
+                      </Parallax>
+                    )
+                  )}
+                </div>
+              </div>
+            </section>
+
+            <section id="lokasi" className="relative min-h-screen mb-20 py-20">
+              <Parallax speed={20}>
+                <div className="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center min-h-screen">
+                  <h2 className="text-4xl font-bold mb-8 text-center">
+                    Kunjungi Kami
+                  </h2>
+                  <iframe
+                    title="google maps"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.9825468028403!2d107.72293321022936!3d-7.011335192960881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68c17c82394c1b%3A0x5b350d79d054412c!2sKantor%20Desa%20Rancakasumba!5e0!3m2!1sid!2sid!4v1724591778974!5m2!1sid!2sid"
+                    width="600"
+                    height="450"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+              </Parallax>
+            </section>
+
+            <section
+              id="galeri"
+              className="relative min-h-screen bg-green-50 py-20 z-40"
+            >
+              <div className="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center min-h-screen">
+                <h2 className="text-4xl font-bold mb-12 text-center">
+                  Galeri Desa
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {galleryImages.map((src, index) => (
+                    <Parallax key={index} speed={5 + index * 3}>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        whileFocus={{ scale: 1.05 }}
+                        className="relative overflow-hidden rounded-lg shadow-lg"
+                      >
+                        <img
+                          src={src}
+                          alt={`Gallery image ${index + 1}`}
+                          className="w-full h-64 object-cover"
+                        />
+                      </motion.div>
+                    </Parallax>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section id="contact" className="relative min-h-screen mt-20">
+              <ParallaxImage
+                src="/images/asset2.jpg"
+                speed={0}
+                className="opacity-50 z-auto"
+              />
+              <div className="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center justify-center min-h-screen">
+                <h2 className="text-4xl font-bold mb-8">Contact Us</h2>
+                <p className="text-lg mb-8">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Vivamus lacinia odio vitae vestibulum.
+                </p>
+                <a
+                  href="#beranda"
+                  className="bg-green-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-green-700 transition duration-300"
+                >
+                  Hubungi Kami
+                </a>
+              </div>
+            </section>
+          </main>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </ParallaxProvider>
+      <footer className="mt-6 bg-green-800 text-white min-h-6 z-50 w-full overflow-hidden mx-auto">
+        <p>{`©KKN UIN SUNAN GUNUNG DJATI ${year}.`}</p>
+      </footer>
+    </>
   );
 }

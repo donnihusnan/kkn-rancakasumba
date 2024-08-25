@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baskervville+SC&display=swap');
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -16,14 +18,61 @@
   }
 }
 
+html,
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: none;
+  width: 100%;
+  text-align: center;
+}
+
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #4caf50;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: all ease;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor.grow {
+  transform: translate(-50%, -50%) scale(2);
+  background-color: rgba(76, 175, 80, 0.2);
+  border-color: rgba(76, 175, 80, 0.8);
+}
+
+/* .custom-cursor.grow {
+  transform: translate(-50%, -50%) scale(1.5);
+  background-color: rgba(76, 175, 80, 0.5);
+  mix-blend-mode: difference;
+} */
+
+a,
+button {
+  cursor: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Baskervville SC', serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none;
+  }
 }
 
 @layer utilities {
