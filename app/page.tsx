@@ -5,6 +5,8 @@ import { ParallaxProvider, Parallax, useParallax } from 'react-scroll-parallax';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { BsFillHouseFill } from 'react-icons/bs';
+import Image from 'next/image';
+import logo from '../public/images/logo.png';
 
 interface ParallaxImageProps {
   src: string;
@@ -126,9 +128,13 @@ export default function Home() {
             }`}
           >
             <nav className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto">
-              <h1 className="text-2xl font-bold mb-4 md:mb-0">
-                <BsFillHouseFill size={40} />
-              </h1>
+              <Image
+                src={logo}
+                alt="Logo Rancakasumba"
+                width={120}
+                height={50}
+              />
+
               <ul className="flex flex-wrap justify-center space-x-4">
                 {['Beranda', 'Tentang', 'Potensi', 'Lokasi'].map((item) => (
                   <li key={item}>
