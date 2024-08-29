@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { useState } from 'react';
 import { Parallax } from 'react-scroll-parallax';
 
@@ -23,7 +22,6 @@ const Gallery = ({ images }) => {
   };
 
   const handleMouseLeave = (index) => {
-    // Smooth transition back to the original position
     setRotateX((prev) => ({ ...prev, [index]: 0 }));
     setRotateY((prev) => ({ ...prev, [index]: 0 }));
   };
@@ -37,16 +35,15 @@ const Gallery = ({ images }) => {
             whileTap={{ scale: 0.95 }}
             className="relative overflow-hidden rounded-lg shadow-lg"
             style={{
-              rotateX: rotateX[index] || 0,
-              rotateY: rotateY[index] || 0,
-              transition: 'transform 0.3s ease', // Adjusted transition timing
+              transform: `rotateX(${rotateX[index] || 0}deg) rotateY(${
+                rotateY[index] || 0
+              }deg)`,
+              transition: 'transform 0.3s ease',
             }}
             onMouseMove={(e) => handleMouseMove(e, index)}
             onMouseLeave={() => handleMouseLeave(index)}
           >
-            <Image
-              width={50}
-              height={50}
+            <img
               src={src}
               alt={`Gallery image ${index + 1}`}
               className="w-full h-64 object-cover"
