@@ -2,11 +2,15 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Parallax } from 'react-scroll-parallax';
 
-const Gallery = ({ images }) => {
-  const [rotateX, setRotateX] = useState({});
-  const [rotateY, setRotateY] = useState({});
+interface GalleryProps {
+  images: string[]; // Array of image URLs or paths
+}
 
-  const handleMouseMove = (event, index) => {
+const Gallery: React.FC<GalleryProps> = ({ images }) => {
+  const [rotateX, setRotateX] = useState<{ [key: number]: number }>({});
+  const [rotateY, setRotateY] = useState<{ [key: number]: number }>({});
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>, index: number) => {
     const card = event.currentTarget;
     const cardRect = card.getBoundingClientRect();
     const mouseX = event.clientX - cardRect.left - cardRect.width / 2;
@@ -21,7 +25,7 @@ const Gallery = ({ images }) => {
     }));
   };
 
-  const handleMouseLeave = (index) => {
+  const handleMouseLeave = (index: number) => {
     setRotateX((prev) => ({ ...prev, [index]: 0 }));
     setRotateY((prev) => ({ ...prev, [index]: 0 }));
   };

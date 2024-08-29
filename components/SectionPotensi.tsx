@@ -25,11 +25,14 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({
   );
 };
 
-const SectionPotensi = () => {
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
+const SectionPotensi: React.FC = () => {
+  const [rotateX, setRotateX] = useState<number>(0);
+  const [rotateY, setRotateY] = useState<number>(0);
 
-  const handleMouseMove = (event, card) => {
+  const handleMouseMove = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    card: HTMLDivElement
+  ) => {
     const cardRect = card.getBoundingClientRect();
     const mouseX = event.clientX - cardRect.left - cardRect.width / 2;
     const mouseY = event.clientY - cardRect.top - cardRect.height / 2;

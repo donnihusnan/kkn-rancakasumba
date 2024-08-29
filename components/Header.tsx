@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import logo from '../public/images/logo.png';
 
-const Header = ({ isHeaderVisible }) => (
+interface HeaderProps {
+  isHeaderVisible: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ isHeaderVisible }) => (
   <header
     className={`fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-green-600 to-green-800 text-white p-4 transition-transform duration-300 ${
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
