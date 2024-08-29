@@ -1,7 +1,15 @@
 import { motion } from 'framer-motion';
 import { Parallax } from 'react-scroll-parallax';
 
-const Section = ({
+interface SectionProps {
+  id: string;
+  title?: string;
+  children: React.ReactNode;
+  parallaxSpeed?: number;
+  className?: string;
+}
+
+const Section: React.FC<SectionProps> = ({
   id,
   title,
   children,

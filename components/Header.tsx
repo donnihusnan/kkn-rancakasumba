@@ -8,7 +8,13 @@ const Header = ({ isHeaderVisible }) => (
     }`}
   >
     <nav className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto">
-      <Image src={logo} alt="Logo Rancakasumba" width={120} height={50} />
+      <Image
+        src={logo}
+        alt="Logo Rancakasumba"
+        width={120}
+        height={50}
+        priority
+      />
       <ul className="flex flex-wrap justify-center space-x-4">
         {['Beranda', 'Tentang', 'Perangkat', 'Kontak'].map((item) => (
           <li key={item}>

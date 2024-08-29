@@ -1,7 +1,20 @@
 import { Button } from '@/components/ui/button';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
-const Pagination = ({ currentPage, totalPages, onPrevious, onNext }) => (
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPrevious: () => void;
+  onNext: () => void;
+}
+
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPrevious,
+  onNext,
+}) => (
+
   <div className="flex justify-center mt-4 space-x-2">
     <Button
       variant="outline"

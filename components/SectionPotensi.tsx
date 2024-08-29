@@ -72,9 +72,9 @@ const SectionPotensi = () => {
                   onMouseLeave={handleMouseLeave}
                 >
                   <h3 className="text-xl font-semibold mb-2">{attraction}</h3>
-                  <p className="text-gray-600">
+                  <p className="">
                     {attraction === 'Pertanian' &&
-                      `Lahan pertanian yang subur dan luas, menjadikannya pusat produksi berbagai jenis tanaman pangan, pertanian di Rancakasumba berkembang pesat, menghasilkan padi, sayuran, dan buah-buahan berkualitas tinggi.`}
+                      `Lahan pertanian yang subur dan luas, menjadikannya pusat produksi berbagai jenis tanaman pangan, pertanian di Rancakasumba berkembang pesat, menghasilkan padi berkualitas tinggi.`}
                     {attraction === 'Bata Merah' &&
                       `Dikenal sebagai salah satu produsen bata merah terbaik di wilayah ini. Bahan bangunan yang dihasilkan oleh para pengrajin lokal terkenal akan kekuatannya dan kualitasnya yang unggul.`}
                     {attraction === 'Pengrajin' &&
