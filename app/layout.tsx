@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     'Website Desa Rancakasumba Kecamatan Solokan Jeruk Kabupaten Bandung',
   icons: {
-    icon: '/images/icon.png',
+    icon: '/images/icon.webp',
   },
 };
 

@@ -48,9 +48,9 @@ const SectionPotensi: React.FC = () => {
   return (
     <Section id="potensi" title="Potensi Desa">
       <ParallaxImage
-        src="/images/asset3.jpg"
+        src="/images/asset3.webp"
         speed={-10}
-        className="opacity-50"
+        className="opacity-70"
       />
       <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

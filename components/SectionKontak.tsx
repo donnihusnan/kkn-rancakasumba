@@ -35,9 +35,9 @@ const SectionKontak = () => {
     <ParallaxProvider>
       <section id="kontak" className="relative min-h-screen overflow-hidden">
         <ParallaxImage
-          src="/images/asset2.jpg"
+          src="/images/asset4.webp"
           speed={-10}
-          className="opacity-50 z-0"
+          className="opacity-70 z-0"
         />
         <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 text-center">
           <motion.div style={{ y }} className="mb-12">

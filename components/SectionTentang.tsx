@@ -12,7 +12,7 @@ const SectionTentang = () => (
       </Parallax>
 
       {/* Content parallax layers */}
-      <Parallax translateY={[-15, 15]} className="relative z-10">
+      <Parallax translateY={[-15, 15]} className="relative z-10 py-5">
         <motion.p
           className="text-base sm:text-lg m-6 px-4 sm:px-8"
           initial={{ opacity: 0, y: 50 }}
@@ -28,7 +28,7 @@ const SectionTentang = () => (
         </motion.p>
       </Parallax>
 
-      <Parallax translateY={[-10, 10]} className="relative z-20">
+      <Parallax translateY={[-10, 10]} className="relative z-20 py-5">
         <motion.p
           className="text-base sm:text-lg m-6 px-4 sm:px-8"
           initial={{ opacity: 0, y: 50 }}

@@ -45,19 +45,19 @@ const SectionBeranda = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       <ParallaxImage
-        src="/images/asset.jpg"
+        src="/images/asset.webp"
         speed={-20}
         className="opacity-80"
       />
       <div className="z-10 max-w-4xl mx-auto px-4 flex flex-col items-center justify-center min-h-screen">
-        <motion.h2
-          className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-center"
+        <motion.h1
+          className="text-4xl -mt-10 sm:text-5xl md:text-6xl font-bold mb-4 text-center"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
           RANCAKASUMBA
-        </motion.h2>
+        </motion.h1>
         <motion.h6
           className="text-3xl sm:text-xl md:text-2xl mb-8 text-center"
           initial={{ opacity: 0, y: 50 }}
