@@ -7,7 +7,19 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const TabelPerangkatDesa = ({ perangkatDesa }) => (
+interface PerangkatDesa {
+  jabatan: string;
+  nama: string;
+  alamat: string;
+}
+
+interface TabelPerangkatDesaProps {
+  perangkatDesa: PerangkatDesa[];
+}
+
+const TabelPerangkatDesa: React.FC<TabelPerangkatDesaProps> = ({
+  perangkatDesa,
+}) => (
   <Table>
     <TableHeader>
       <TableRow className="pl-20">
