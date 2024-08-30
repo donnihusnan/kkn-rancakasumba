@@ -20,7 +20,7 @@ const SectionTentang = () => (
           transition={{ duration: 0.8 }}
         >
           Desa ini dilintasi oleh aliran sungai citarum dan sebagian besar
-          wilayahnya adalah lahan pertanian, Selain itu, sektor perdagangan
+          wilayahnya adalah lahan pertanian. Selain itu, sektor perdagangan
           lokal juga berperan penting dalam perekonomian desa, dengan berbagai
           usaha kecil dan menengah yang menggerakkan ekonomi masyarakat.
           Infrastruktur di Desa Rancakasumba mencakup akses jalan utama yang

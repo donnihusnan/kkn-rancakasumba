@@ -1,7 +1,13 @@
 import Section from './Section';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { ParallaxProvider, Parallax, useParallax } from 'react-scroll-parallax';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useAnimation,
+  useInView,
+} from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 interface ParallaxImageProps {
@@ -45,6 +51,32 @@ const SectionPotensi: React.FC = () => {
     setRotateY(0);
   };
 
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.6, -0.05, 0.01, 0.99],
+      },
+    },
+  };
+
   return (
     <Section id="potensi" title="Potensi Desa">
       <ParallaxImage
@@ -52,11 +84,18 @@ const SectionPotensi: React.FC = () => {
         speed={-10}
         className="opacity-70"
       />
-      <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
+      <motion.div
+        ref={containerRef}
+        className="relative z-10 max-w-6xl mx-auto px-4 text-center"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {['Pertanian', 'Bata Merah', 'Pengrajin'].map((attraction, index) => (
             <Parallax key={index} speed={5 * (index + 1)}>
               <motion.div
+                variants={itemVariants}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
@@ -88,7 +127,7 @@ const SectionPotensi: React.FC = () => {
             </Parallax>
           ))}
         </div>
-      </div>
+      </motion.div>
     </Section>
   );
 };
