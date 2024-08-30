@@ -49,30 +49,30 @@ const SectionBeranda = () => {
         speed={-20}
         className="opacity-80"
       />
-      <div className="z-10 max-w-4xl mx-auto px-4 flex flex-col items-center justify-center min-h-screen">
+      <div className="z-10 mt-[-5rem] max-w-4xl mx-auto px-4 flex flex-col items-center justify-center min-h-screen">
         <motion.h1
-          className="text-4xl -mt-10 sm:text-5xl md:text-6xl font-bold mb-4 text-center"
+          className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-center"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
           RANCAKASUMBA
         </motion.h1>
-        <motion.h6
+        <motion.h3
           className="text-3xl sm:text-xl md:text-2xl mb-8 text-center"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
           Desa Madani
-        </motion.h6>
+        </motion.h3>
       </div>
       <motion.div
         className="absolute bottom-10 transform -translate-x-1/2"
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 1.5 }}
       >
-        <ChevronDown size={40} className="text-green-400" />
+        <ChevronDown color='#166534' size={40}/>
       </motion.div>
     </motion.section>
   );
