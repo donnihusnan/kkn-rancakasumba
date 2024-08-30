@@ -60,9 +60,9 @@ const SectionKontak = () => {
     <ParallaxProvider>
       <section id="kontak" className="relative min-h-screen overflow-hidden">
         <ParallaxImage
-          src="/images/asset4.webp"
+          src="/images/desa8.webp"
           speed={-10}
-          className="opacity-70 z-0"
+          className="opacity-50 z-0"
         />
         <motion.div
           ref={containerRef}

@@ -31,7 +31,7 @@ const SectionPerangkat: React.FC<SectionPerangkatProps> = ({
       <div className="relative overflow-hidden">
         {/* Background parallax layer */}
         <Parallax translateY={[-20, 20]} className="absolute inset-0 z-0">
-          <div className="bg-blue-200 opacity-50 w-full h-full" />
+          <div className="bg-green-200 opacity-50 w-full h-full" />
         </Parallax>
 
         {/* Content parallax layer */}
@@ -71,13 +71,13 @@ const SectionPerangkat: React.FC<SectionPerangkatProps> = ({
           translateX={[-30, 30]}
           className="absolute top-10 left-0 z-30"
         >
-          <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-blue-300 opacity-30" />
+          <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-green-300 opacity-30" />
         </Parallax>
         <Parallax
           translateX={[40, -40]}
           className="absolute bottom-10 right-0 z-30"
         >
-          <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-full bg-blue-400 opacity-20" />
+          <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-full bg-green-400 opacity-20" />
         </Parallax>
       </div>
     </Section>

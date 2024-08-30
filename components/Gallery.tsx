@@ -42,12 +42,12 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
       <div ref={ref} className="relative overflow-hidden p-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" ref={galleryRef}>
           {/* Background decorative elements */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0 bg-green-100">
             <Parallax translateY={[-20, 20]}>
-              <div className="w-64 h-64 rounded-full bg-blue-200 opacity-30 absolute -top-32 -left-32" />
+              <div className="w-64 h-64 rounded-full bg-green-300 opacity-30 absolute -top-32 -left-32" />
             </Parallax>
             <Parallax translateY={[20, -20]}>
-              <div className="w-96 h-96 rounded-full bg-green-200 opacity-30 absolute -bottom-48 -right-48" />
+              <div className="w-96 h-96 rounded-full bg-green-400 opacity-30 absolute -bottom-97 -right-48" />
             </Parallax>
           </div>
 

@@ -122,14 +122,14 @@ const Home = () => {
   ];
 
   const galleryImages = [
-    '/images/asset.webp',
-    '/images/asset2.webp',
-    '/images/asset3.webp',
-    '/images/asset4.webp',
-    '/images/asset5.webp',
-    '/images/asset6.webp',
-    '/images/asset7.webp',
+    '/images/desa6.webp',
     '/images/sawah.webp',
+    '/images/asset3.webp',
+    '/images/desa2.webp',
+    '/images/desa4.webp',
+    '/images/desa7.webp',
+    '/images/desa9.webp',
+    '/images/desa3.webp',
   ];
 
   const handleScroll = useCallback(() => {
