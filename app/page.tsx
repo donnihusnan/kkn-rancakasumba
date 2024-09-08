@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { ParallaxProvider, Parallax, useParallax } from 'react-scroll-parallax';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SectionGallery from '@/components/SectionGallery';

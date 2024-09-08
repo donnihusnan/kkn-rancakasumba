@@ -13,19 +13,26 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const galleryRef = useRef(null);
   const { ref } = useParallax<HTMLDivElement>({ speed: 10 });
 
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>, index: number) => {
-    const card = event.currentTarget;
-    const cardRect = card.getBoundingClientRect();
-    const mouseX = event.clientX - cardRect.left - cardRect.width / 2;
-    const mouseY = event.clientY - cardRect.top - cardRect.height / 2;
-    setRotateX((prev) => ({
-      ...prev,
-      [index]: (mouseY / cardRect.height) * 20,
-    }));
-    setRotateY((prev) => ({
-      ...prev,
-      [index]: -(mouseX / cardRect.width) * 20,
-    }));
+  const handleMouseMove = (
+    event: React.MouseEvent<HTMLDivElement>,
+    index: number
+  ) => {
+    requestAnimationFrame(() => {
+      const card = event.currentTarget;
+      if (card) {
+        const cardRect = card.getBoundingClientRect();
+        const mouseX = event.clientX - cardRect.left - cardRect.width / 2;
+        const mouseY = event.clientY - cardRect.top - cardRect.height / 2;
+        setRotateX((prev) => ({
+          ...prev,
+          [index]: (mouseY / cardRect.height) * 20,
+        }));
+        setRotateY((prev) => ({
+          ...prev,
+          [index]: -(mouseX / cardRect.width) * 20,
+        }));
+      }
+    });
   };
 
   const handleMouseLeave = (index: number) => {
@@ -40,14 +47,17 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   return (
     <>
       <div ref={ref} className="relative overflow-hidden p-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" ref={galleryRef}>
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          ref={galleryRef}
+        >
           {/* Background decorative elements */}
           <div className="absolute inset-0 z-0 bg-green-100">
-            <Parallax translateY={[-20, 20]}>
+            <Parallax translateY={[-10, 10]}>
               <div className="w-64 h-64 rounded-full bg-green-300 opacity-30 absolute -top-32 -left-32" />
             </Parallax>
-            <Parallax translateY={[20, -20]}>
-              <div className="w-96 h-96 rounded-full bg-green-400 opacity-30 absolute -bottom-97 -right-48" />
+            <Parallax translateY={[10, -10]}>
+              <div className="w-96 h-96 rounded-full bg-green-400 opacity-30 absolute -bottom-48 -right-48" />
             </Parallax>
           </div>
 
@@ -57,14 +67,14 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: '-100px' }}
               whileHover={{ scale: 1.05, zIndex: 10 }}
               whileTap={{ scale: 0.95 }}
               className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
               style={{
-                transform: `perspective(1000px) rotateX(${rotateX[index] || 0}deg) rotateY(${
-                  rotateY[index] || 0
-                }deg)`,
+                transform: `perspective(1000px) rotateX(${
+                  rotateX[index] || 0
+                }deg) rotateY(${rotateY[index] || 0}deg)`,
                 transition: 'transform 0.3s ease',
               }}
               onMouseMove={(e) => handleMouseMove(e, index)}
@@ -80,7 +90,9 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
                 className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition-opacity duration-300"
                 whileHover={{ opacity: 1 }}
               >
-                <p className="text-white text-lg font-semibold">View Full Size</p>
+                <p className="text-white text-lg font-semibold">
+                  View Full Size
+                </p>
               </motion.div>
             </motion.div>
           ))}
@@ -95,14 +107,13 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-            onClick={closeLightbox} // Close lightbox on click anywhere
+            onClick={closeLightbox}
           >
             <motion.div
               className="relative max-w-full max-h-full w-full h-full flex items-center justify-center"
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              onClick={closeLightbox} // Ensure lightbox closes even if the image is clicked
             >
               <img
                 src={selectedImage}

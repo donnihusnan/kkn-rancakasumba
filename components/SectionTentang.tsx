@@ -7,17 +7,17 @@ const SectionTentang = () => (
   <Section id="tentang" title="Tentang Desa">
     <div className="relative overflow-hidden">
       {/* Background parallax layer */}
-      <Parallax translateY={[-20, 20]} className="absolute inset-0 z-0">
+      <Parallax translateY={[-10, 10]} className="absolute inset-0 z-0">
         <div className="bg-green-200 opacity-50 w-full h-full" />
       </Parallax>
 
       {/* Content parallax layers */}
-      <Parallax translateY={[-15, 15]} className="relative z-10 py-5">
+      <Parallax translateY={[-8, 8]} className="relative z-10 py-5">
         <motion.p
           className="text-base sm:text-lg m-6 px-4 sm:px-8"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
         >
           Desa ini dilintasi oleh aliran sungai citarum dan sebagian besar
           wilayahnya adalah lahan pertanian. Selain itu, sektor perdagangan
@@ -28,12 +28,12 @@ const SectionTentang = () => (
         </motion.p>
       </Parallax>
 
-      <Parallax translateY={[-10, 10]} className="relative z-20 py-5">
+      <Parallax translateY={[-5, 5]} className="relative z-20 py-5">
         <motion.p
           className="text-base sm:text-lg m-6 px-4 sm:px-8"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
           Kehidupan sosial di desa ini dipenuhi dengan tradisi dan upacara adat
           yang mencerminkan kekayaan budaya setempat, diiringi dengan adanya
@@ -45,14 +45,14 @@ const SectionTentang = () => (
       </Parallax>
 
       {/* Decorative elements with parallax */}
-      <Parallax translateX={[-30, 30]} className="absolute top-10 left-0 z-30">
-        <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-green-300 opacity-30" />
+      <Parallax translateX={[-15, 15]} className="absolute top-10 left-0 z-30">
+        <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-green-300 opacity-30" />
       </Parallax>
       <Parallax
-        translateX={[40, -40]}
+        translateX={[20, -20]}
         className="absolute bottom-10 right-0 z-30"
       >
-        <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-full bg-green-400 opacity-20" />
+        <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-green-400 opacity-20" />
       </Parallax>
     </div>
   </Section>

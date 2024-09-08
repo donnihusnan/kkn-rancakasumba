@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { ParallaxProvider, Parallax, useParallax } from 'react-scroll-parallax';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Mailbox, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import Image from 'next/image';
 
 interface ParallaxImageProps {
   src: string;
@@ -17,11 +18,15 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({
 }) => {
   const { ref } = useParallax<HTMLDivElement>({ speed });
   return (
-    <div
-      ref={ref}
-      className={`absolute inset-0 bg-cover bg-center ${className}`}
-      style={{ backgroundImage: `url(${src})` }}
-    />
+    <div ref={ref} className={`absolute inset-0 ${className}`}>
+      <Image
+        src={src}
+        alt="Background Image"
+        layout="fill"
+        objectFit="cover"
+        quality={75}
+      />
+    </div>
   );
 };
 
@@ -56,12 +61,15 @@ const SectionKontak = () => {
     },
   };
 
+  const [showMap, setShowMap] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768; // Check if running in the browser and conditionally apply
+
   return (
     <ParallaxProvider>
       <section id="kontak" className="relative min-h-screen overflow-hidden">
         <ParallaxImage
           src="/images/desa8.webp"
-          speed={-10}
+          speed={isMobile ? 0 : -10}
           className="opacity-50 z-0"
         />
         <motion.div
@@ -75,24 +83,38 @@ const SectionKontak = () => {
             <h2 className="text-4xl font-bold mb-4">Kunjungi Kami</h2>
           </motion.div>
 
-          <Parallax speed={-5}>
-            <motion.div variants={itemVariants}>
-              <Card className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden mb-12">
-                <CardContent className="p-0">
-                  <iframe
-                    title="google maps"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.9825468028403!2d107.72293321022936!3d-7.011335192960881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68c17c82394c1b%3A0x5b350d79d054412c!2sKantor%20Desa%20Rancakasumba!5e0!3m2!1sid!2sid!4v1724591778974!5m2!1sid!2sid"
-                    width="100%"
-                    height="300"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </Parallax>
+          {!showMap ? (
+            <div
+              className="cursor-pointer mb-12"
+              onClick={() => setShowMap(true)}
+            >
+              <img
+                src="https://via.placeholder.com/800x300.png?text=Click+to+View+Map"
+                alt="Map Preview"
+                className="w-full h-72 object-cover"
+              />
+              <p className="text-blue-500">Click to view the map</p>
+            </div>
+          ) : (
+            <Parallax speed={-5}>
+              <motion.div variants={itemVariants}>
+                <Card className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden mb-12">
+                  <CardContent className="p-0">
+                    <iframe
+                      title="google maps"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.9825468028403!2d107.72293321022936!3d-7.011335192960881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68c17c82394c1b%3A0x5b350d79d054412c!2sKantor%20Desa%20Rancakasumba!5e0!3m2!1sid!2sid!4v1724591778974!5m2!1sid!2sid"
+                      width="100%"
+                      height="300"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Parallax>
+          )}
 
           <Parallax speed={5}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">

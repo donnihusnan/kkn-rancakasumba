@@ -1,14 +1,7 @@
 import Section from './Section';
-import { useCallback, useEffect, useState, useRef } from 'react';
-import { ParallaxProvider, Parallax, useParallax } from 'react-scroll-parallax';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useAnimation,
-  useInView,
-} from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Parallax, useParallax } from 'react-scroll-parallax';
+import { motion, useInView } from 'framer-motion';
 
 interface ParallaxImageProps {
   src: string;
@@ -34,19 +27,27 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({
 const SectionPotensi: React.FC = () => {
   const [rotateX, setRotateX] = useState<number>(0);
   const [rotateY, setRotateY] = useState<number>(0);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const handleMouseMove = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     card: HTMLDivElement
   ) => {
-    const cardRect = card.getBoundingClientRect();
-    const mouseX = event.clientX - cardRect.left - cardRect.width / 2;
-    const mouseY = event.clientY - cardRect.top - cardRect.height / 2;
-    setRotateX((mouseY / cardRect.height) * 20);
-    setRotateY(-(mouseX / cardRect.width) * 20);
+    if (timeoutId) clearTimeout(timeoutId);
+
+    const newTimeoutId = setTimeout(() => {
+      const cardRect = card.getBoundingClientRect();
+      const mouseX = event.clientX - cardRect.left - cardRect.width / 2;
+      const mouseY = event.clientY - cardRect.top - cardRect.height / 2;
+      setRotateX((mouseY / cardRect.height) * 15); // Reduced rotation intensity
+      setRotateY(-(mouseX / cardRect.width) * 15);
+    }, 16); // 60fps debounce
+
+    setTimeoutId(newTimeoutId);
   };
 
   const handleMouseLeave = () => {
+    if (timeoutId) clearTimeout(timeoutId);
     setRotateX(0);
     setRotateY(0);
   };
@@ -81,7 +82,7 @@ const SectionPotensi: React.FC = () => {
     <Section id="potensi" title="Potensi Desa">
       <ParallaxImage
         src="/images/asset3.webp"
-        speed={-10}
+        speed={-5} // Reduced parallax speed
         className="opacity-70"
       />
       <motion.div
@@ -93,7 +94,9 @@ const SectionPotensi: React.FC = () => {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {['Pertanian', 'Bata Merah', 'Pengrajin'].map((attraction, index) => (
-            <Parallax key={index} speed={5 * (index + 1)}>
+            <Parallax key={index} speed={3 * (index + 1)}>
+              {' '}
+              {/* Lower parallax speed */}
               <motion.div
                 variants={itemVariants}
                 whileHover={{ scale: 1.05 }}
@@ -108,13 +111,13 @@ const SectionPotensi: React.FC = () => {
                   style={{
                     rotateX: rotateX,
                     rotateY: rotateY,
-                    transition: 'all 0.1s ease',
+                    transition: 'transform 0.1s ease',
                   }}
                   onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
                   onMouseLeave={handleMouseLeave}
                 >
                   <h3 className="text-xl font-semibold mb-2">{attraction}</h3>
-                  <p className="">
+                  <p>
                     {attraction === 'Pertanian' &&
                       `Lahan pertanian yang subur dan luas, menjadikannya pusat produksi berbagai jenis tanaman pangan, pertanian di Rancakasumba berkembang pesat, menghasilkan padi berkualitas tinggi.`}
                     {attraction === 'Bata Merah' &&
