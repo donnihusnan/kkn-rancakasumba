@@ -13,8 +13,6 @@ const Footer = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const year = new Date().getFullYear();
-
   return (
     <footer
       className="relative bg-slate-600 text-white min-h-12 w-full overflow-hidden flex items-center justify-center"
@@ -37,7 +35,7 @@ const Footer = () => {
             '0 0 5px var(--glow-color), 0 0 10px var(--glow-color), 0 0 15px var(--glow-color)',
         }}
       >
-        {`©KKN UIN SUNAN GUNUNG DJATI ${year} `}
+        {`©KKN UIN SUNAN GUNUNG DJATI 2024 `}
         <span role="img" aria-label="love" className="animate-pulse">
           ❤️
         </span>
@@ -45,7 +43,7 @@ const Footer = () => {
         <span role="img" aria-label="love" className="animate-pulse">
           ❤️
         </span>
-        {` ©KKN UIN SUNAN GUNUNG DJATI ${year} `}
+        {` ©KKN UIN SUNAN GUNUNG DJATI 2024 `}
         <span role="img" aria-label="love" className="animate-pulse">
           ❤️
         </span>
